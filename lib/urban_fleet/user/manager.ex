@@ -55,7 +55,7 @@ defmodule UserManager do
       user -> {:ok, user.score}
     end
   end
-  
+
   def ranking do
     users = UserStorage.load_users()
 
