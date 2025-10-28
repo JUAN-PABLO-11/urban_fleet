@@ -47,14 +47,19 @@ defmodule UserStorage do
         {:error, _}->[] end
       end
 
-  defp parse_usuario(line) do
-    [id_str, name, role_str, password_hash, score_str] = String.split(line, "|")
+  defp parse_line(line) do
+    case String.split(line, "|")do
+      [name, role, hash, score]->
+        %{
+          username: name,
+          role: String.to_atom(role),
+          password_hash: hash,
+          score: String.to_integer(score)
+        }
+        _-> nil
+    end
 
-    %User{
-      id: String.to_integer(id_str),
-      name: name,
-      role: String.to_atom(role_str),
-      password_hash: password_hash,
-      score: String.to_integer(score_str)
-    }
+    defp format_line(user) do
+      "#{user.username}|#{user.role}|#{user.password_hash}|#{user.score}"
+    end
   end
